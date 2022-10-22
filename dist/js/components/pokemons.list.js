@@ -36,8 +36,11 @@ export class PokemonList extends Component {
     createTemplate() {
         this.template = ``;
         this.pokemonsInfo.forEach((pokemon) => {
-            this.template += `<p>${pokemon.species.name}</p>`;
-            this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="" width="300">`;
+            this.template += `
+      <div class="pokemon">
+      <p class="pokemon__name">${pokemon.species.name}</p>`;
+            this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="imagen de ${pokemon.species.name}" width="300">
+      </div>`;
         });
         return this.template;
     }
