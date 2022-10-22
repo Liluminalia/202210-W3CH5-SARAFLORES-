@@ -18,18 +18,18 @@ export class PokemonList extends Component {
   async fetching() {
     this.pokemons = await this.api.getPokemon();
 
-    const pokemonArr: any = [];
+    const pokemonArray: any = [];
     this.pokemons.results.forEach((item: any) => {
-      pokemonArr.push(item.url);
+      pokemonArray.push(item.url);
     });
 
     this.pokemonsInfo = await Promise.all(
-      pokemonArr.map((url: any) => fetch(url).then((result) => result.json()))
+      pokemonArray.map((url: any) => fetch(url).then((result) => result.json()))
     );
+    this.manageComponent();
   }
 
   manageComponent() {
-    console.log(this.pokemons);
     this.template = this.createTemplate();
     this.renderAdd(this.selector, this.template);
   }
@@ -37,8 +37,9 @@ export class PokemonList extends Component {
   createTemplate() {
     this.template = ``;
 
-    this.pokemons.results.forEach((pokemon: any) => {
-      this.template += `<p>${pokemon.name}</p>`;
+    this.pokemonsInfo.forEach((pokemon: any) => {
+      this.template += `<p>${pokemon.species.name}</p>`;
+      this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="" width="300">`;
     });
 
     return this.template;
