@@ -19,5 +19,6 @@
     "titleBar.inactiveForeground": "#15202b99"
   },
   "peacock.color": "#6297EA",
-  "liveServer.settings.port": 5502
+  "liveServer.settings.port": 5503,
+  "cSpell.words": ["pokemons"]
 }
