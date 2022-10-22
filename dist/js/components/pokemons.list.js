@@ -21,22 +21,23 @@ export class PokemonList extends Component {
     fetching() {
         return __awaiter(this, void 0, void 0, function* () {
             this.pokemons = yield this.api.getPokemon();
-            const pokemonArr = [];
+            const pokemonArray = [];
             this.pokemons.results.forEach((item) => {
-                pokemonArr.push(item.url);
+                pokemonArray.push(item.url);
             });
-            this.pokemonsInfo = yield Promise.all(pokemonArr.map((url) => fetch(url).then((result) => result.json())));
+            this.pokemonsInfo = yield Promise.all(pokemonArray.map((url) => fetch(url).then((result) => result.json())));
+            this.manageComponent();
         });
     }
     manageComponent() {
-        console.log(this.pokemons);
         this.template = this.createTemplate();
         this.renderAdd(this.selector, this.template);
     }
     createTemplate() {
         this.template = ``;
-        this.pokemons.results.forEach((pokemon) => {
-            this.template += `<p>${pokemon.name}</p>`;
+        this.pokemonsInfo.forEach((pokemon) => {
+            this.template += `<p>${pokemon.species.name}</p>`;
+            this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="" width="300">`;
         });
         return this.template;
     }
