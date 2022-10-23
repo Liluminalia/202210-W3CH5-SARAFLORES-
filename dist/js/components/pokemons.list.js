@@ -16,6 +16,7 @@ export class PokemonList extends Component {
         this.api = new PokemonApi();
         this.pokemons = '';
         this.pokemonsInfo = [];
+        this.prevPokemons = [];
         this.fetching();
     }
     fetching() {
@@ -26,12 +27,20 @@ export class PokemonList extends Component {
                 pokemonUrlArray.push(item.url);
             });
             this.pokemonsInfo = yield Promise.all(pokemonUrlArray.map((url) => fetch(url).then((result) => result.json())));
+            // --------------------NEXT PAGE----------------------------
             this.nextPage = yield this.api.getNextPage(this.pokemons.next);
             const nextArrayPokemons = [];
             this.nextPage.results.forEach((item) => {
                 nextArrayPokemons.push(item.url);
             });
             this.nextPokemons = yield Promise.all(nextArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
+            // ------------------PREV PAGE---------------------------------------
+            this.prevPage = yield this.api.getPrevPage(this.pokemons.previous);
+            const prevArrayPokemons = [];
+            this.prevPage.results.forEach((item) => {
+                prevArrayPokemons.push(item.url);
+            });
+            this.prevPokemons = yield Promise.all(prevArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
             this.manageComponent();
         });
     }
@@ -58,10 +67,9 @@ export class PokemonList extends Component {
     </div>
     <div>
         <button class="btn-previous">
-        <a href=''><</a>
        </button>
 
-       <button class="btn-next"><a href=''>></a></button></div>
+       <button class="btn-next">></button></div>
         `;
         return this.template;
     }

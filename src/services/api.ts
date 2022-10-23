@@ -12,4 +12,7 @@ export class PokemonApi {
   getNextPage(nextUrl: string): Promise<any> {
     return fetch(nextUrl).then((response) => response.json());
   }
+  getPrevPage(prevUrl: string): Promise<any> {
+    return fetch(prevUrl).then((response) => response.json());
+  }
 }

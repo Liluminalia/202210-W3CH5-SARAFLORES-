@@ -4,22 +4,24 @@ import { Component } from './component.js';
 export class PokemonList extends Component {
   template!: string;
   pokemons: any;
-  pokemonsInfo: Array<string>;
+  pokemonsInfo: Array<any>;
   api: PokemonApi;
+  prevPage: any;
   nextPage: any;
   nextPokemons: any;
+  prevPokemons: any[];
   constructor(public selector: string) {
     super();
     this.api = new PokemonApi();
     this.pokemons = '';
     this.pokemonsInfo = [];
-
+    this.prevPokemons = [];
     this.fetching();
   }
 
   async fetching() {
     this.pokemons = await this.api.getPokemon();
-    const pokemonUrlArray: Array<string> = [];
+    const pokemonUrlArray: Array<any> = [];
     this.pokemons.results.forEach((item: any) => {
       pokemonUrlArray.push(item.url);
     });
@@ -29,7 +31,7 @@ export class PokemonList extends Component {
         fetch(url).then((result) => result.json())
       )
     );
-
+    // --------------------NEXT PAGE----------------------------
     this.nextPage = await this.api.getNextPage(this.pokemons.next);
 
     const nextArrayPokemons: any = [];
@@ -43,12 +45,27 @@ export class PokemonList extends Component {
         fetch(url).then((result) => result.json())
       )
     );
+    // ------------------PREV PAGE---------------------------------------
+    this.prevPage = await this.api.getPrevPage(this.pokemons.previous);
+
+    const prevArrayPokemons: any = [];
+
+    this.prevPage.results.forEach((item: any) => {
+      prevArrayPokemons.push(item.url);
+    });
+
+    this.prevPokemons = await Promise.all(
+      prevArrayPokemons.map((url: string) =>
+        fetch(url).then((result) => result.json())
+      )
+    );
     this.manageComponent();
   }
 
   manageComponent() {
     this.template = this.createTemplate(this.pokemonsInfo);
     this.render(this.selector, this.template);
+
     document.querySelector('.btn-next')?.addEventListener('click', () => {
       this.template = this.createTemplate(this.nextPokemons);
       this.render(this.selector, this.template);
@@ -70,10 +87,9 @@ export class PokemonList extends Component {
     </div>
     <div>
         <button class="btn-previous">
-        <a href=''><</a>
        </button>
 
-       <button class="btn-next"><a href=''>></a></button></div>
+       <button class="btn-next">></button></div>
         `;
 
     return this.template;
