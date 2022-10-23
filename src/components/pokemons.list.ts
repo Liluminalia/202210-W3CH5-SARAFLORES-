@@ -46,7 +46,8 @@ export class PokemonList extends Component {
       )
     );
     // ------------------PREV PAGE---------------------------------------
-    this.prevPage = await this.api.getPrevPage(this.pokemons.previous);
+    if (this.prevPage === null)
+      this.prevPage = await this.api.getPrevPage(this.pokemons.previous);
 
     const prevArrayPokemons: any = [];
 
@@ -70,6 +71,10 @@ export class PokemonList extends Component {
       this.template = this.createTemplate(this.nextPokemons);
       this.render(this.selector, this.template);
     });
+    document.querySelector('.btn-previous')?.addEventListener('click', () => {
+      this.template = this.createTemplate(this.prevPokemons);
+      this.render(this.selector, this.template);
+    });
   }
 
   createTemplate(array: any) {
@@ -86,7 +91,7 @@ export class PokemonList extends Component {
     this.template += `
     </div>
     <div>
-        <button class="btn-previous">
+        <button class="btn-previous"><
        </button>
 
        <button class="btn-next">></button></div>

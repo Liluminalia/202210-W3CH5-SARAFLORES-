@@ -45,11 +45,15 @@ export class PokemonList extends Component {
         });
     }
     manageComponent() {
-        var _a;
+        var _a, _b;
         this.template = this.createTemplate(this.pokemonsInfo);
         this.render(this.selector, this.template);
         (_a = document.querySelector('.btn-next')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
             this.template = this.createTemplate(this.nextPokemons);
+            this.render(this.selector, this.template);
+        });
+        (_b = document.querySelector('.btn-previous')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', () => {
+            this.template = this.createTemplate(this.prevPokemons);
             this.render(this.selector, this.template);
         });
     }
@@ -66,7 +70,7 @@ export class PokemonList extends Component {
         this.template += `
     </div>
     <div>
-        <button class="btn-previous">
+        <button class="btn-previous"><
        </button>
 
        <button class="btn-next">></button></div>
