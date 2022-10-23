@@ -1,6 +1,6 @@
 export class PokemonApi {
     constructor() {
-        this.url = 'https://pokeapi.co/api/v2/pokemon/';
+        this.url = 'https://pokeapi.co/api/v2/pokemon?limit=20&offset=0';
     }
     getPokemon() {
         return fetch(this.url).then((response) => response.json());
@@ -9,8 +9,9 @@ export class PokemonApi {
         return fetch(nextUrl).then((response) => response.json());
     }
     getPrevPage(prevUrl) {
-        if (prevUrl === null)
-            return fetch(this.url).then((response) => response.json());
+        if (!prevUrl) {
+            return this.getPokemon();
+        }
         return fetch(prevUrl).then((response) => response.json());
     }
 }

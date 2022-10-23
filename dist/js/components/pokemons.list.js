@@ -16,10 +16,10 @@ export class PokemonList extends Component {
         this.api = new PokemonApi();
         this.pokemons = '';
         this.pokemonsInfo = [];
-        this.prevPokemons = [];
-        this.fetching();
+        this.prevPokemonsInfo = [];
+        this.firstFetching();
     }
-    fetching() {
+    firstFetching() {
         return __awaiter(this, void 0, void 0, function* () {
             this.pokemons = yield this.api.getPokemon();
             const pokemonUrlArray = [];
@@ -27,21 +27,29 @@ export class PokemonList extends Component {
                 pokemonUrlArray.push(item.url);
             });
             this.pokemonsInfo = yield Promise.all(pokemonUrlArray.map((url) => fetch(url).then((result) => result.json())));
-            // --------------------NEXT PAGE----------------------------
+            this.nextFetching();
+            this.prevFetching();
+            this.manageComponent();
+        });
+    }
+    nextFetching() {
+        return __awaiter(this, void 0, void 0, function* () {
             this.nextPage = yield this.api.getNextPage(this.pokemons.next);
             const nextArrayPokemons = [];
             this.nextPage.results.forEach((item) => {
                 nextArrayPokemons.push(item.url);
             });
-            this.nextPokemons = yield Promise.all(nextArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
-            // ------------------PREV PAGE---------------------------------------
+            this.nextPokemonsInfo = yield Promise.all(nextArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
+        });
+    }
+    prevFetching() {
+        return __awaiter(this, void 0, void 0, function* () {
             this.prevPage = yield this.api.getPrevPage(this.pokemons.previous);
             const prevArrayPokemons = [];
             this.prevPage.results.forEach((item) => {
                 prevArrayPokemons.push(item.url);
             });
-            this.prevPokemons = yield Promise.all(prevArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
-            this.manageComponent();
+            this.prevPokemonsInfo = yield Promise.all(prevArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
         });
     }
     manageComponent() {
@@ -49,12 +57,22 @@ export class PokemonList extends Component {
         this.template = this.createTemplate(this.pokemonsInfo);
         this.render(this.selector, this.template);
         (_a = document.querySelector('.btn-next')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
-            this.template = this.createTemplate(this.nextPokemons);
+            this.template = this.createTemplate(this.nextPokemonsInfo);
             this.render(this.selector, this.template);
+            this.pokemons = this.nextPage;
+            this.pokemonsInfo = this.nextPokemonsInfo;
+            this.nextFetching();
+            this.prevFetching();
+            this.manageComponent();
         });
         (_b = document.querySelector('.btn-previous')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', () => {
-            this.template = this.createTemplate(this.prevPokemons);
+            this.template = this.createTemplate(this.prevPokemonsInfo);
             this.render(this.selector, this.template);
+            this.pokemons = this.prevPage;
+            this.pokemonsInfo = this.prevPokemonsInfo;
+            this.nextFetching();
+            this.prevFetching();
+            this.manageComponent();
         });
     }
     createTemplate(array) {
