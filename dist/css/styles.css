@@ -28,12 +28,18 @@ body {
 }
 .main {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main-pokemons {
+  display: flex;
   padding: 3rem;
   flex-direction: row;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
-.pokemon {
+.pokemons-pokemon {
   display: flex;
   padding: 1rem;
   border: 1px lightblue solid;
@@ -44,5 +50,6 @@ body {
   align-items: center;
 }
 .pokemon__name {
-  font-size: 20px;
+  font-size: 30px;
+  font-weight: bold;
 }

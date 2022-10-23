@@ -15,33 +15,54 @@ export class PokemonList extends Component {
         this.selector = selector;
         this.api = new PokemonApi();
         this.pokemons = '';
-        this.pokemonsInfo = '';
+        this.pokemonsInfo = [];
         this.fetching();
     }
     fetching() {
         return __awaiter(this, void 0, void 0, function* () {
             this.pokemons = yield this.api.getPokemon();
-            const pokemonArray = [];
+            const pokemonUrlArray = [];
             this.pokemons.results.forEach((item) => {
-                pokemonArray.push(item.url);
+                pokemonUrlArray.push(item.url);
             });
-            this.pokemonsInfo = yield Promise.all(pokemonArray.map((url) => fetch(url).then((result) => result.json())));
+            this.pokemonsInfo = yield Promise.all(pokemonUrlArray.map((url) => fetch(url).then((result) => result.json())));
+            this.nextPage = yield this.api.getNextPage(this.pokemons.next);
+            const nextArrayPokemons = [];
+            this.nextPage.results.forEach((item) => {
+                nextArrayPokemons.push(item.url);
+            });
+            this.nextPokemons = yield Promise.all(nextArrayPokemons.map((url) => fetch(url).then((result) => result.json())));
             this.manageComponent();
         });
     }
     manageComponent() {
-        this.template = this.createTemplate();
-        this.renderAdd(this.selector, this.template);
+        var _a;
+        this.template = this.createTemplate(this.pokemonsInfo);
+        this.render(this.selector, this.template);
+        (_a = document.querySelector('.btn-next')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => {
+            this.template = this.createTemplate(this.nextPokemons);
+            this.render(this.selector, this.template);
+        });
     }
-    createTemplate() {
-        this.template = ``;
-        this.pokemonsInfo.forEach((pokemon) => {
+    createTemplate(array) {
+        this.template = `
+    <div class="main-pokemons">`;
+        array.forEach((pokemon) => {
             this.template += `
-      <div class="pokemon">
-      <p class="pokemon__name">${pokemon.species.name}</p>`;
-            this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="imagen de ${pokemon.species.name}" width="300">
+      <div class="pokemons-pokemon">
+      <p class="pokemon__name">${pokemon.name}</p>`;
+            this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="Imagen de ${pokemon.species.name}" width="300">
       </div>`;
         });
+        this.template += `
+    </div>
+    <div>
+        <button class="btn-previous">
+        <a href=''><</a>
+       </button>
+
+       <button class="btn-next"><a href=''>></a></button></div>
+        `;
         return this.template;
     }
 }
