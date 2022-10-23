@@ -11,7 +11,7 @@ export class MenuHeader extends Component {
   constructor(public selector: string) {
     super();
     this.menuOptions = [
-      { path: '', label: 'Inicio' },
+      { path: './index.html', label: 'Inicio' },
       { path: '', label: 'My Pokemons' },
       { path: '', label: 'About' },
     ];
@@ -22,7 +22,7 @@ export class MenuHeader extends Component {
     let template = '<nav><ul class="header-menu">';
     this.menuOptions.forEach(
       (item: menuOptionI) =>
-        (template += `<li class ="menu__items"><a href="${item.path}">${item.label} </a></li>
+        (template += `<li class ="menu__items"><a href="${item.path}" class ="menu__text">${item.label}  </a></li>
             `)
     );
     template += '</ul></nav>';

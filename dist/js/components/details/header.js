@@ -1,10 +1,12 @@
 import { Component } from '../component.js';
-export class Details extends Component {
+import { MenuHeader } from '../menu.header.js';
+export class HeaderDetails extends Component {
     constructor(selector) {
         super();
         this.selector = selector;
         this.template = this.createTemplate();
         this.renderAdd(this.selector, this.template);
+        new MenuHeader('header>slot');
     }
     createTemplate() {
         return `

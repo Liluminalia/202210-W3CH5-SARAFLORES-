@@ -89,6 +89,9 @@ export class PokemonList extends Component {
       this.prevFetching();
       this.manageComponent();
     });
+    // document.querySelector('.pokemons-pokemon')?.addEventListener('click',()=>{
+
+    // });
   }
 
   createTemplate(array: any) {
@@ -97,10 +100,10 @@ export class PokemonList extends Component {
 
     array.forEach((pokemon: any) => {
       this.template += `
-      <div class="pokemons-pokemon">
+      <div class="pokemons-pokemon"><a href="./details.html" class="pokemon__button">
       <p class="pokemon__name">${pokemon.name}</p>`;
       this.template += `<img src="${pokemon.sprites.other.home.front_default}" alt="Imagen de ${pokemon.species.name}" width="300">
-      </div>`;
+      </a></div>`;
     });
     this.template += `
     </div>
