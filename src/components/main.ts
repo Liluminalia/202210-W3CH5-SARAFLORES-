@@ -9,7 +9,7 @@ export class Main extends Component {
   }
   createTemplate() {
     return `
-         <main class="main">
+        <main class="main">
             
         </main>
         `;
