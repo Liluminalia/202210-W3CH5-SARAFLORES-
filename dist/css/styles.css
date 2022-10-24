@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 * {
   box-sizing: border-box;
 }
@@ -24,9 +25,18 @@ body {
   display: flex;
   text-decoration: none;
   list-style: none;
-  justify-content: space-between;
+  justify-content: space-around;
+  margin: 0 3px;
   padding: 1rem;
-  border: 1px gainsboro solid;
+  border: 1px lightblue solid;
+  border-radius: 5px;
+  background-color: rgb(224, 243, 255);
+}
+.menu__text {
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+
+  color: black;
 }
 .main {
   display: flex;
@@ -53,7 +63,24 @@ body {
   justify-content: center;
   align-items: center;
 }
+.pokemon__button {
+  flex-direction: column;
+  display: flex;
+  color: black;
+  font-family: Pacifico;
+  text-transform: uppercase;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+
+  text-decoration: none;
+  list-style: none;
+  align-items: center;
+}
 .pokemon__name {
   font-size: 30px;
   font-weight: bold;
+
+  text-decoration: none;
+  list-style: none;
 }
