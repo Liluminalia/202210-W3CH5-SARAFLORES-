@@ -107,9 +107,9 @@ export class PokemonList extends Component {
     </div>
     <div>
         <button class="btn-previous"><
-       </button>
+      </button>
 
-       <button class="btn-next">></button></div>
+      <button class="btn-next">></button></div>
         `;
 
     return this.template;
