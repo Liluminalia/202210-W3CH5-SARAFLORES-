@@ -1,10 +1,12 @@
+import { IPokemon, IPokemons } from '../models/i.pokemon.js';
 import { PokemonApi } from '../services/api.js';
+import { pokemon } from '../services/storage.js';
 import { Component } from './component.js';
 
 export class PokemonList extends Component {
   template!: string;
-  pokemons: any;
-  pokemonsInfo: Array<any>;
+  pokemons: any; //Ipokemons
+  pokemonsInfo: Array<string>;
   api: PokemonApi;
   prevPage: any;
   nextPage: any;
@@ -13,8 +15,8 @@ export class PokemonList extends Component {
   constructor(public selector: string) {
     super();
     this.api = new PokemonApi();
-    this.pokemons = '';
     this.pokemonsInfo = [];
+    this.pokemons = '';
     this.prevPokemonsInfo = [];
     this.firstFetching();
   }
@@ -22,7 +24,7 @@ export class PokemonList extends Component {
   async firstFetching() {
     this.pokemons = await this.api.getPokemon();
     const pokemonUrlArray: Array<any> = [];
-    this.pokemons.results.forEach((item: any) => {
+    this.pokemons.results.forEach((item: IPokemon) => {
       pokemonUrlArray.push(item.url);
     });
 
@@ -73,7 +75,6 @@ export class PokemonList extends Component {
       this.template = this.createTemplate(this.nextPokemonsInfo);
       this.render(this.selector, this.template);
       this.pokemons = this.nextPage;
-
       this.pokemonsInfo = this.nextPokemonsInfo;
       this.nextFetching();
       this.prevFetching();
