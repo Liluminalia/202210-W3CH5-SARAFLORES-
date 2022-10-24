@@ -89,9 +89,6 @@ export class PokemonList extends Component {
       this.prevFetching();
       this.manageComponent();
     });
-    // document.querySelector('.pokemons-pokemon')?.addEventListener('click',()=>{
-
-    // });
   }
 
   createTemplate(array: any) {
