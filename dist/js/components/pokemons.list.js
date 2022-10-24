@@ -14,8 +14,8 @@ export class PokemonList extends Component {
         super();
         this.selector = selector;
         this.api = new PokemonApi();
-        this.pokemons = '';
         this.pokemonsInfo = [];
+        this.pokemons = '';
         this.prevPokemonsInfo = [];
         this.firstFetching();
     }
